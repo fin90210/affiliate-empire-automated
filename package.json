@@ -1,3 +1,4 @@
+sudo chown -R $USER ~/.npm
 {
   "name": "affiliate-empire-automated",
   "version": "0.1.0",
