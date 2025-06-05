@@ -1,0 +1,108 @@
+
+// Automation-specific database schema additions
+// Add these models to your existing schema.prisma file
+
+model Keyword {
+  id           String   @id @default(cuid())
+  keyword      String   @unique
+  searchVolume Int      @default(0)
+  difficulty   Int      @default(50)
+  cpc          Float    @default(0.0)
+  intent       String   @default("informational") // informational, commercial, transactional, navigational
+  trend        String   @default("stable") // rising, stable, declining
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("keywords")
+}
+
+model ContentCalendar {
+  id                  String   @id @default(cuid())
+  date                DateTime
+  mainKeyword         String
+  relatedKeywords     String   // comma-separated
+  title               String
+  outline             String   // newline-separated headings
+  metaDescription     String?
+  estimatedWordCount  Int      @default(1500)
+  searchVolume        Int      @default(0)
+  difficulty          Int      @default(50)
+  priority            Int      @default(0)
+  status              String   @default("planned") // planned, in_progress, completed, published
+  postId              String?  // link to actual post when created
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  @@map("content_calendar")
+}
+
+model EmailLog {
+  id           String   @id @default(cuid())
+  subscriberId String
+  subject      String
+  content      String
+  type         String   // welcome, nurture, promotion, educational
+  sentAt       DateTime @default(now())
+  opened       Boolean  @default(false)
+  clicked      Boolean  @default(false)
+  
+  subscriber   Subscriber @relation(fields: [subscriberId], references: [id])
+
+  @@map("email_logs")
+}
+
+model SocialPost {
+  id        String   @id @default(cuid())
+  platform  String   // twitter, linkedin, facebook
+  content   String
+  hashtags  String   // comma-separated
+  url       String?
+  postId    String?  // link to blog post
+  postedAt  DateTime @default(now())
+  likes     Int      @default(0)
+  shares    Int      @default(0)
+  comments  Int      @default(0)
+  clicks    Int      @default(0)
+
+  @@map("social_posts")
+}
+
+model AffiliateClick {
+  id        String   @id @default(cuid())
+  linkId    String   // affiliate link identifier
+  postId    String?  // which post the click came from
+  ip        String?
+  userAgent String?
+  referrer  String?
+  clickedAt DateTime @default(now())
+
+  @@map("affiliate_clicks")
+}
+
+model AutomationLog {
+  id        String   @id @default(cuid())
+  type      String   // daily, weekly, content, email, social, etc.
+  status    String   // success, failure, partial
+  message   String?
+  duration  Int?     // execution time in milliseconds
+  createdAt DateTime @default(now())
+
+  @@map("automation_logs")
+}
+
+// Add to existing Subscriber model
+model Subscriber {
+  id           String     @id @default(cuid())
+  email        String     @unique
+  name         String?
+  interests    String?    // JSON array of interests
+  source       String?    // where they subscribed from
+  active       Boolean    @default(true)
+  unsubscribed Boolean    @default(false)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  
+  emailLogs    EmailLog[]
+
+  @@map("subscribers")
+}
