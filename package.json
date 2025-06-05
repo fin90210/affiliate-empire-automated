@@ -4,6 +4,16 @@
     "workspaces": [
         "app"
     ],
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint",
+        "type-check": "tsc --noEmit",
+        "db:generate": "prisma generate",
+        "db:push": "prisma db push",
+        "db:seed": "prisma db seed"
+    },
     "prisma": {
         "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
     },
