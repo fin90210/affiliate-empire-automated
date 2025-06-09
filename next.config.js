@@ -1,3 +1,4 @@
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   eslint: {
@@ -10,7 +11,9 @@ const nextConfig = {
     unoptimized: true,
     domains: []
   },
-  serverExternalPackages: ['puppeteer']
+  experimental: {
+    serverComponentsExternalPackages: ['puppeteer']
+  }
 };
 
 module.exports = nextConfig;
