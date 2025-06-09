@@ -12,7 +12,7 @@ const nextConfig = {
     domains: []
   },
   experimental: {
-    serverComponentsExternalPackages: ['puppeteer']
+    serverExternalPackages: ['puppeteer']
   }
 };
 
