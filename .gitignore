@@ -44,6 +44,9 @@ jspm_packages/
 /.pnp
 .pnp.js
 
+# Testing
+/coverage
+
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
 
@@ -92,6 +95,23 @@ out
 # Nuxt.js build / generate output
 .nuxt
 dist
+
+# Production
+/build
+
+# Misc
+.DS_Store
+*.pem
+
+# Local env files
+.env*.local
+
+# Vercel
+.vercel
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
 
 # Gatsby files
 .cache/
